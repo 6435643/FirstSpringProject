@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -28,11 +28,11 @@
 </div>
 <hr/>
 
-<form th:method="GET" th:action="@{books/{id}/edit(id=${book.getId_books()})}">
+<form th:method="GET" th:action="@{/books/{id}/edit(id=${book.getId_books()})}">
     <input type="submit" value="Edit"/>
 </form>
 
-<form th:method="DELETE" th:action="@{books/{id}(id=${book.getId_books()})}">
+<form th:method="DELETE" th:action="@{/books/{id}(id=${book.getId_books()})}">
     <input type="submit" value="Delete"/>
 </form>
 

@@ -1,21 +1,34 @@
 package ru.springapplication.models;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+@Entity
+@Table(name = "Books")
 public class Book {
 
+    @Id
+    @Column(name = "id_books")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_books;
 
     @NotEmpty(message = "Name should not be empty")
     @Size(min = 1, max = 30, message = "Name should be between 1 and 30 characters")
+    @Column(name = "name")
     private String name;
 
     @NotEmpty(message = "Author should not be empty")
     @Size(min = 1, max = 30, message = "Author should be between 1 and 30 characters")
+    @Column(name = "author")
     private String author;
 
+    @Column(name = "year")
     private int year;
+
+    @ManyToOne
+    @JoinColumn(name = "id_person", referencedColumnName = "id_person")
+    private Person owner;
 
     public Book(){
 
@@ -60,4 +73,11 @@ public class Book {
         this.id_books = id_books;
     }
 
+    public Person getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Person owner) {
+        this.owner = owner;
+    }
 }
