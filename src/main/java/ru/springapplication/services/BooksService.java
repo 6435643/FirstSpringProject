@@ -2,6 +2,8 @@ package ru.springapplication.services;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.springapplication.models.Book;
@@ -96,4 +98,22 @@ public class BooksService {
         booksRepository.deleteById(id_book);
     }
 
+    public List<Book> paginate(Integer page, Integer perPage, String sort) {
+        if(sort == null){
+            return booksRepository.findAll(PageRequest.of(page,perPage)).getContent();
+        } else {
+            if(perPage > 0){
+                if(sort.equals("true")){
+                    return booksRepository.findAll(PageRequest.of(page,perPage,Sort.by("year"))).getContent();
+                } else return booksRepository.findAll(PageRequest.of(page,perPage)).getContent();
+            }
+            if(sort.equals("true")){
+                return sort();
+            } else return findAll();
+        }
+    }
+
+    public List<Book> sort(){
+        return booksRepository.findAll(Sort.by("year"));
+    }
 }

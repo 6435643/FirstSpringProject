@@ -10,6 +10,7 @@ import ru.springapplication.models.Person;
 import ru.springapplication.services.BooksService;
 import ru.springapplication.services.PeopleService;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.Valid;
 
 
@@ -28,7 +29,15 @@ public class BooksController {
     }
 
     @GetMapping()
-    public String index(Model model){
+    public String index(Model model, @RequestParam(value = "page", required = false,defaultValue = "0") Integer page,
+                        @RequestParam(value ="books_per_page", required = false, defaultValue = "0") Integer perPage,
+                        @RequestParam(value = "sort_by_year", required = false) String sort) {
+
+        if((sort != null) || perPage > 0){
+            model.addAttribute("books", booksService.paginate(page,perPage,sort));
+            return "books/index";
+        }
+
          model.addAttribute("books",booksService.findAll());
          return "books/index";
     }
