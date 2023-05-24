@@ -3,6 +3,7 @@ package ru.springapplication.models;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 @Entity
 @Table(name = "Books")
@@ -25,6 +26,13 @@ public class Book {
 
     @Column(name = "year")
     private int year;
+
+    @Column(name = "date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
+
+    @Transient
+    private boolean overdue;
 
     @ManyToOne
     @JoinColumn(name = "id_person", referencedColumnName = "id_person")
@@ -79,5 +87,21 @@ public class Book {
 
     public void setOwner(Person owner) {
         this.owner = owner;
+    }
+
+    public Date getDateOfIssue() {
+        return date;
+    }
+
+    public void setDateOfIssue(Date date) {
+        this.date = date;
+    }
+
+    public boolean isOverdue() {
+        return overdue;
+    }
+
+    public void setOverdue(boolean overdue) {
+        this.overdue = overdue;
     }
 }

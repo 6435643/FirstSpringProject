@@ -11,10 +11,7 @@ import ru.springapplication.models.Person;
 import ru.springapplication.repositories.BooksRepository;
 import ru.springapplication.repositories.PeopleRepository;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
@@ -67,7 +64,7 @@ public class BooksService {
 
 
         book.setOwner(owner);
-
+        book.setDateOfIssue(new Date());
         if(owner.getBooks() == null){
             owner.setBooks(new ArrayList<>(Collections.singletonList(book)));
         }else {
@@ -84,6 +81,7 @@ public class BooksService {
 
         owner.getBooks().remove(book);
         book.setOwner(null);
+        book.setDateOfIssue(null);
     }
 
     @Transactional

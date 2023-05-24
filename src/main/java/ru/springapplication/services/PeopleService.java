@@ -8,6 +8,7 @@ import ru.springapplication.models.Book;
 import ru.springapplication.models.Person;
 import ru.springapplication.repositories.PeopleRepository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,6 +44,12 @@ public class PeopleService {
     public List<Book> showBooks(int id_person){
         Person person = peopleRepository.findById(id_person).orElse(null);
         Hibernate.initialize(person.getBooks());
+
+        for(int i = 0; i < person.getBooks().size(); i++){
+            if(( new Date().getTime() - person.getBooks().get(i).getDateOfIssue().getTime()) > 8.64e+8){
+                person.getBooks().get(i).setOverdue(true);
+            }
+        }
         return person.getBooks();
     }
 
