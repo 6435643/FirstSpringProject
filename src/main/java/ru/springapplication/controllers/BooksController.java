@@ -10,7 +10,6 @@ import ru.springapplication.models.Person;
 import ru.springapplication.services.BooksService;
 import ru.springapplication.services.PeopleService;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.Valid;
 
 
@@ -108,5 +107,16 @@ public class BooksController {
     public String deleteBook(@PathVariable("id") int id){
         booksService.delete(id);
         return "redirect:/books";
+    }
+
+    @GetMapping("/search")
+    public String search(){
+        return "books/search";
+    }
+
+    @PostMapping("/search")
+    public String doSearch(Model model, @RequestParam(value = "query",required = false) String name){
+        model.addAttribute("books", booksService.search(name));
+        return "books/search";
     }
 }
